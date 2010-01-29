@@ -15,17 +15,26 @@ etc.
 3. In the Options text area that appears enter in data according to the
    following structure:
 
-       { 
-         "California" => [ "LA","San Francisco","San Diego" ],
-         "Texas" => [ "Dallas","Houston","Austin" ],
-         "Lousiana" => [ "New Orleans","Sliddel","Baton Rougue" ],
-       }
+         { 
+           "California" => [ "LA","San Francisco","San Diego" ],
+           "Texas" => [ "Dallas","Houston","Austin" ],
+           "Lousiana" => [ "New Orleans","Sliddel","Baton Rougue" ],
+         }
 
-   *For those familiar with Perl, you will recognize this is a simple
-    hash*.
+   *For those familiar with Perl, you will recognize this is a simple hash*.
 
    Syntax is important here, so pay attention to placement of commas, and
    make sure all square and curly brackets are opened and closed properly.
+
+# Screenshots
+
+## The Edit Field Screen
+
+<img src="http://skitch.com/byrnereese/n1494/edit-field-my-first-blog-movable-type-pro" />
+
+## The Custom Field in Action
+
+<img src="http://skitch.com/byrnereese/n15yd/create-entry-my-first-blog-movable-type-pro" />
 
 # Prerequisites
 

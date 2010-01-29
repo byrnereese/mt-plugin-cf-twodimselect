@@ -1,6 +1,7 @@
 package TwoDimSelect::Plugin;
 
 use strict;
+use MT::Util qw( dirify );
 
 sub load_customfield_types {
     return {
@@ -11,18 +12,32 @@ sub load_customfield_types {
 $(document).ready( function() {
   $('#<mt:var name="field_name">_parent').change( function() {
     $('.<mt:var name="field_id">-values').hide();
-    $('#<mt:var name="field_id">-' + $(this).val()).show();
+    var v;
+    if ($('#<mt:var name="field_id">-' + $(this).val()).length > 0) {
+      $('#<mt:var name="field_id">-' + $(this).val()).show();
+      v = $('#<mt:var name="field_id">-' + $(this).val()).val()
+    } else {
+      v = $(this).val();
+    }
+    alert('v = ' + v);
+    $('#<mt:var name="field_id">-value').val( v );
+  });
+  $('.<mt:var name="field_id">-values').change( function() {
+    var v = $(this).val();
+    $('#<mt:var name="field_id">-value').val( v );
   });
 });
 </script>
+<input id="<mt:var name="field_id">-value" name="<mt:var name="field_name">" type="hidden" value="<mt:var name="value">" />
 <select id="<mt:var name="field_name">_parent">
   <option value="">None Selected</option>
 <mt:loop name="options_loop">
-  <option value="<mt:var name="label" dirify="1">" <mt:if name="loop_selected"> selected</mt:if>><mt:var name="label"></option>
+  <option value="<mt:var name="value">" <mt:if name="loop_selected"> selected</mt:if>><mt:var name="label"></option>
+  <mt:setvarblock name="top_label"><mt:var name="label"></mt:setvarblock>
 <mt:setvarblock name="extras" append="1">
   <mt:loop name="values_loop">
-    <mt:if name="__first__"><select class="<mt:var name="field_id">-values" id="<mt:var name="field_id">-<mt:var name="label" dirify="1">" name="<mt:var name="field_name">" <mt:unless name="loop_selected">style="display: none;"</mt:unless>></mt:if>
-    <option<mt:if name="selected"> selected</mt:if>><mt:var name="__value__"></option>
+    <mt:if name="__first__"><select class="<mt:var name="field_id">-values" id="<mt:var name="field_id">-<mt:var name="top_label" dirify="1">" <mt:unless name="loop_selected">style="display: none;"</mt:unless>></mt:if>
+    <option value="<mt:var name="value">"<mt:if name="selected"> selected</mt:if>><mt:var name="label"></option>
     <mt:if name="__last__"></select></mt:if>
   </mt:loop>
 </mt:setvarblock>
@@ -35,22 +50,31 @@ $(document).ready( function() {
                 my $value = $tmpl_param->{options};
                 my $hash;
                 eval "\$hash = $value;";
+                if ($@) {
+                    MT->log("Error parsing twodimselect options hash: $@");
+                }
                 my @loop;
-                foreach (sort keys %$hash) {
-                    my @loop2;
-                    my @vals = @{$hash->{$_}};
+                foreach my $top (sort keys %$hash) {
+                    my @loop2 = ();
                     my ($selected1,$selected2) = (0,0);
-                    foreach (sort @vals) {
-                        if ($tmpl_param->{value} eq $_) {
-                            $selected1 = $selected2 = 1;
+                    if ($hash->{$top}) {
+                        my @vals = @{$hash->{$top}};
+                        foreach (sort @vals) {
+                            if ($tmpl_param->{value} eq $_) {
+                                $selected1 = $selected2 = 1;
+                            }
+                            push @loop2, {
+                                'selected'  => $selected2,
+                                'label'     => $_,
+                                'value'     => dirify( $top . " " . $_ )
+                            }
                         }
-                        push @loop2, {
-                            'selected'  => $selected2,
-                            '__value__' => $_
-                        }
+                    } else {
+                        $selected1 = ($tmpl_param->{value} eq $top);
                     }
                     push @loop, {
-                        'label'         => $_,
+                        'label'         => $top,
+                        'value'         => dirify($top),
                         'loop_selected' => $selected1,
                         'values_loop'   => \@loop2,
                     };

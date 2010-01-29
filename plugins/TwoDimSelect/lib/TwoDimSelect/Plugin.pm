@@ -19,7 +19,6 @@ $(document).ready( function() {
     } else {
       v = $(this).val();
     }
-    alert('v = ' + v);
     $('#<mt:var name="field_id">-value').val( v );
   });
   $('.<mt:var name="field_id">-values').change( function() {
@@ -56,26 +55,27 @@ $(document).ready( function() {
                 my @loop;
                 foreach my $top (sort keys %$hash) {
                     my @loop2 = ();
-                    my ($selected1,$selected2) = (0,0);
+                    my $selected = 0;
                     if ($hash->{$top}) {
                         my @vals = @{$hash->{$top}};
-                        foreach (sort @vals) {
-                            if ($tmpl_param->{value} eq $_) {
-                                $selected1 = $selected2 = 1;
+                        foreach my $scnd (sort @vals) {
+                            my $v = dirify( $top . " " . $scnd );
+                            if ($tmpl_param->{value} eq $v) {
+                                $selected = 1;
                             }
                             push @loop2, {
-                                'selected'  => $selected2,
-                                'label'     => $_,
-                                'value'     => dirify( $top . " " . $_ )
+                                'label'     => $scnd,
+                                'value'     => $v,
+                                'selected'  => $tmpl_param->{value} eq $v,
                             }
                         }
                     } else {
-                        $selected1 = ($tmpl_param->{value} eq $top);
+                        $selected = ($tmpl_param->{value} eq dirify($top));
                     }
                     push @loop, {
                         'label'         => $top,
                         'value'         => dirify($top),
-                        'loop_selected' => $selected1,
+                        'loop_selected' => $selected,
                         'values_loop'   => \@loop2,
                     };
                 }

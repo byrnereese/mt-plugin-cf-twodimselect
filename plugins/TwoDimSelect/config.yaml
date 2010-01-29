@@ -1,0 +1,11 @@
+id: TwoDimSelect
+name: 'Two Dimensional Pull Down'
+description: 'Provides a custom field type for Movable Type Pro users that is a two dimensional pull down menu. Select an item in one menu to reveal a second pull down menu.'
+version: 1.0
+author_link: http://endevver.com/
+author_name: Endevver, LLC
+plugin_link: http://endevver.com/plugins/twodimselect/
+
+customfield_types: $TwoDimSelect::TwoDimSelect::Plugin::load_customfield_types
+
+

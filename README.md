@@ -30,11 +30,11 @@ etc.
 
 ## The Edit Field Screen
 
-<img src="http://skitch.com/byrnereese/n1494/edit-field-my-first-blog-movable-type-pro" />
+<img src="http://img.skitch.com/20100129-ep4ssj6ayhkyfyw67w3nqq76ja.jpg" />
 
 ## The Custom Field in Action
 
-<img src="http://skitch.com/byrnereese/n15yd/create-entry-my-first-blog-movable-type-pro" />
+<img src="http://img.skitch.com/20100129-tb56iibxaj7q1j7je9eqfnwa8r.jpg" />
 
 # Prerequisites
 
